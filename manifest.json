@@ -1,0 +1,12 @@
+{
+    "name": "Amazon Fake Review Detector",
+    "version": "1.0.0",
+    "description": "This extension detects fake reviews on Amazon",
+    "author": "Paul Lin",
+    "permissions": ["activeTab", "scripting"],
+    "action": {
+        "default_popup": "index.html",
+        "default_title": "Amazon Fake Review Detector"
+    },
+    "manifest_version": 3
+}
