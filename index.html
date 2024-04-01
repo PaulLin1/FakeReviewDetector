@@ -4,18 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Amazon Fake Review Detector</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div>
         <h2>
-            Fake Reviews:
+            Fake Reviews Detector
         </h2>
     </div>
+
+    <div class="container">
+        <div class="center">
+            <button id="detect" class="aligned">
+                Detect
+            </button>
+        </div>
+    </div>
+
     <div>
-        <button id="detect">
-            Detect
-        </button>
-        <body id="review_data">review data</body>
+        <body id="review_data"></body>
     </div>
     <script src="script.js"></script>
 </body>
