@@ -9,7 +9,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     let review = request.review;
     
     if(review != null) {
-        review_html.innerText = 'hi'
+        review_html.innerText = review
 
     }
     else {
@@ -40,5 +40,31 @@ async function scrapeReviewFromPage(url) {
         review = document.evaluate("//*[contains(concat(' ', @id, ' '), 'customer_review')]/div[4]/span/span", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.innerText
     }
     // here is where you send the post request to the api
-    chrome.runtime.sendMessage({review});
+    // Make a POST request to your Flask API endpoint
+    let data = {
+        text: review
+    };
+
+    // Make a POST request to your Flask API endpoint with JSON data
+    let res = await fetch('http://127.0.0.1:5000/endpoint', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json', // Set the content type to JSON
+        },
+        body: JSON.stringify(data), // Stringify the JSON object
+    })
+        .then(response => {
+            if (response.ok) {
+                return response.json(); // assuming the server returns JSON
+            }
+            throw new Error('Network response was not ok.');
+        })
+        .then(data => {
+            console.log(data.text); // Handle the response from the Flask API
+            chrome.runtime.sendMessage({ review: data.text });
+
+        })
+        .catch(error => {
+            console.error('There was a problem with your fetch operation:', error);
+        });
 }

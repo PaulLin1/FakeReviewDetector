@@ -8,5 +8,9 @@
         "default_popup": "index.html",
         "default_title": "Amazon Fake Review Detector"
     },
-    "manifest_version": 3
+    "manifest_version": 3,
+    "host_permissions": [
+        "https://www.amazon.com/*",
+        "http://127.0.0.1:5000/"
+    ]
 }
