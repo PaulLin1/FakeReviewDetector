@@ -11,7 +11,7 @@ def handle_data():
     received_text = data.get('text', '')  # Extract the 'text' field from the JSON data
     #return jsonify({'received_text': received_text})
     review = data["text"]
-    print(detector(review))
+    print(f"{detector(review)}: {review}")
     return {"text": detector(review)}
 
 if __name__ == '__main__':
