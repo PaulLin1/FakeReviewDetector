@@ -36,7 +36,7 @@ async function scrapeReviewFromPage(url) {
     // the text of the review
     let review = null;
     
-    if(url.includes('https://www.amazon.com/gp/customer-reviews/')) {
+    if(url.includes('https://www.amazon.in/gp/customer-reviews/')) {
         review = document.evaluate("//*[contains(concat(' ', @id, ' '), 'customer_review')]/div[4]/span/span", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.innerText
 
         // here is where you send the post request to the api
