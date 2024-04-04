@@ -88,13 +88,12 @@ def detector(review):
 
       # Make a prediction using the trained model
       prediction = logreg_model.predict(user_input_vectorized)
-
       # Output the prediction
       if prediction >= 0.8:
-        return "Most likely Fake"
+        return "Most likely Fake", prediction
       if prediction >= 0.5:
-          return "Maybe Fake"
+          return "Maybe Fake", prediction
       else:
-          return "Looks Genuine"
+          return "Looks Genuine", prediction
 
 print(detector("Test"))

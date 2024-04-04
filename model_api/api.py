@@ -11,8 +11,10 @@ def handle_data():
     received_text = data.get('text', '')  # Extract the 'text' field from the JSON data
     #return jsonify({'received_text': received_text})
     review = data["text"]
-    print(f"{detector(review)}: {review}")
-    return {"text": detector(review)}
+    result, prediction = detector(review)
+    print(f"{result}: {review} {prediction}")
+
+    return {"text": result}
 
 if __name__ == '__main__':
     app.run(debug=True)
