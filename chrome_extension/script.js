@@ -38,6 +38,7 @@ async function scrapeReviewFromPage(url) {
     
     if(url.includes('https://www.amazon.com/gp/customer-reviews/')) {
         review = document.evaluate("//*[contains(concat(' ', @id, ' '), 'customer_review')]/div[4]/span/span", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.innerText
+        rating = document.evaluate("//*[contains(concat(' ', @id, ' '), 'customer_review')]/div[2]/a/i/span", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.innerText
 
         // here is where you send the post request to the api
         // Make a POST request to your Flask API endpoint
