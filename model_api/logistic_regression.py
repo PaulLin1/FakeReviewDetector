@@ -2,7 +2,7 @@ import nltk
 nltk.download('punkt')
 nltk.download('vader_lexicon')
 import pandas as pd
-data = pd.read_csv('fake_review_data_2000.csv')
+data = pd.read_csv('fake_5000 - Sheet1.csv')
 
 texts = []
 labels = []
