@@ -5,7 +5,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 250px;
+    height: 200px;
     width: 200px;
 }
 .centered-container {
@@ -30,4 +30,12 @@ body {
 .paragraph {
     font-size: 16px;
     margin-bottom: 20px;
+}
+
+.genuine {
+    background-color: #28a745;
+}
+
+.fake {
+    background-color: red;
 }
