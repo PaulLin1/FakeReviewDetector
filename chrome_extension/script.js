@@ -45,7 +45,8 @@ async function scrapeReviewFromPage(url) {
         // here is where you send the post request to the api
         // Make a POST request to your Flask API endpoint
         let data = {
-            text: review
+            text: review,
+            rating: rating
         };
 
         // Make a POST request to your Flask API endpoint with JSON data
