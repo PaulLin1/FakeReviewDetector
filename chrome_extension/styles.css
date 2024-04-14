@@ -51,6 +51,7 @@ body {
     font-style: italic bold;
     margin-bottom: 20px;
 <<<<<<< HEAD
+<<<<<<< HEAD
     color: whitesmoke;
 }
 @keyframes slideDownFromTop {
@@ -68,6 +69,8 @@ body {
 
 .fake {
     background-color: red;
+=======
+>>>>>>> parent of 13e2f10 (Merge branch 'main' of https://github.com/PaulLin1/FakeReviewDetector)
 =======
 >>>>>>> parent of 13e2f10 (Merge branch 'main' of https://github.com/PaulLin1/FakeReviewDetector)
 }
