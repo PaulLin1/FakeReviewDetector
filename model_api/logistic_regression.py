@@ -9,6 +9,7 @@ from nltk.sentiment import SentimentIntensityAnalyzer
 from nltk.tokenize import word_tokenize
 import numpy as np
 from sklearn.metrics import accuracy_score
+from textstat import flesch_reading_ease
 
 data = pd.read_csv('fake_5000 - Sheet1.csv')
 
@@ -39,8 +40,8 @@ X_word_freq = vectorizer.fit_transform([" ".join(tokens) for tokens in tokenized
 
 # Sentiment Analysis
 sid = SentimentIntensityAnalyzer()
-coherence = []
 sentiments = []
+coherence = []
 for text in texts:
   sentiments.append(sid.polarity_scores(text)["compound"])
   if sid.polarity_scores(text)["compound"] > 0.5 and ratings[i] > 3:
@@ -48,18 +49,22 @@ for text in texts:
   else:
     coherence.append(0)
 
+#Fre-Readability score
+readability = []
+for text in texts:
+  readability.append(flesch_reading_ease(text))
 
 
 
 # Combine features
 X = X_word_freq
-X = np.column_stack([X.toarray(), sentiments, coherence])
+X = np.column_stack([X.toarray(), sentiments, coherence, readability])
 
 # Train-test split
 X_train, X_test, y_train, y_test = train_test_split(X, labels, test_size=0.2, random_state=42)
 
 # Logistic Regression model
-logreg_model = LogisticRegression()
+logreg_model = LogisticRegression(max_iter=20000)
 logreg_model.fit(X_train, y_train)
 
 
@@ -109,3 +114,4 @@ def detector(review, rating):
       else:
           return "Looks Genuine", prediction
 
+print(accuracy())
