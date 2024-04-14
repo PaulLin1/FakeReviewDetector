@@ -2,19 +2,6 @@ import nltk
 nltk.download('punkt')
 nltk.download('vader_lexicon')
 import pandas as pd
-data = pd.read_csv('fake_review_data_2000.csv')
-
-texts = []
-labels = []
-
-for i in range(len(data.text_)):
-  texts.append(data.text_[i])
-
-  if data.label[i] == "CG":
-    labels.append(1)
-  else:
-    labels.append(0)
-
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
@@ -22,6 +9,21 @@ from nltk.sentiment import SentimentIntensityAnalyzer
 from nltk.tokenize import word_tokenize
 import numpy as np
 from sklearn.metrics import accuracy_score
+
+data = pd.read_csv('fake_5000 - Sheet1.csv')
+
+texts = []
+labels = []
+ratings = []
+
+for i in range(len(data.text_)):
+  texts.append(data.text_[i])
+  ratings.append(data.rating[i])
+
+  if data.label[i] == "CG":
+    labels.append(1)
+  else:
+    labels.append(0)
 
 # Labels: 1 for fake reviews, 0 for genuine reviews
 labels = np.array(labels)
@@ -37,13 +39,21 @@ X_word_freq = vectorizer.fit_transform([" ".join(tokens) for tokens in tokenized
 
 # Sentiment Analysis
 sid = SentimentIntensityAnalyzer()
+coherence = []
 sentiments = []
 for text in texts:
   sentiments.append(sid.polarity_scores(text)["compound"])
+  if sid.polarity_scores(text)["compound"] > 0.5 and ratings[i] > 3:
+    coherence.append(1)
+  else:
+    coherence.append(0)
+
+
+
 
 # Combine features
 X = X_word_freq
-X = np.column_stack([X.toarray(), sentiments])
+X = np.column_stack([X.toarray(), sentiments, coherence])
 
 # Train-test split
 X_train, X_test, y_train, y_test = train_test_split(X, labels, test_size=0.2, random_state=42)
@@ -61,7 +71,7 @@ def accuracy():
   print(f"Accuracy {accuracy*100}%")
 
 
-def detector(review):
+def detector(review, rating):
    
   user_input_review = review
   # Tokenize and preprocess the user input
@@ -82,17 +92,20 @@ def detector(review):
 
       # Add sentiment score for the user input
       user_input_sentiment = sid.polarity_scores(user_input_review)["compound"]
+      if sid.polarity_scores(user_input_review)["compound"] > 0.5 and int(rating) > 3:
+          coherence = 1
+      else:
+          coherence = 0
 
       #Put features together
-      user_input_vectorized = np.column_stack([user_input_vectorized.toarray(), user_input_sentiment])
+      user_input_vectorized = np.column_stack([user_input_vectorized.toarray(), user_input_sentiment, coherence])
 
       # Make a prediction using the trained model
       prediction = logreg_model.predict(user_input_vectorized)
-
       # Output the prediction
+      
       if prediction >= 0.5:
-          return "Fake"
+          return "Maybe Fake", prediction
       else:
-          return "Genuine"
+          return "Looks Genuine", prediction
 
-print(detector("Test"))

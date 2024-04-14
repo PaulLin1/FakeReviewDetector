@@ -4,16 +4,24 @@ let reviewScrape = document.getElementById("detect");
 // the html element of the review that is copied on the chrome extension
 let review_html = document.getElementById('review_data')
 
+// the html element of the review that is copied on the chrome extension
+let button_html = document.getElementById('detect')
+
 // adds the review text to the chrome extension ui
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     let review = request.review;
     
     if(review != null) {
-        review_html.innerText = review
-
+        button_html.innerText = review
+        if (review == "Looks Genuine") {
+            button_html.classList.add("genuine");
+        }
+        else if (review == "Maybe Fake") {
+            button_html.classList.add("fake");
+        }
     }
     else {
-        review_html.innerText = 'No Review Found'
+        button_html.innerText = 'No Review Found'
     }
 
 })
@@ -37,34 +45,44 @@ async function scrapeReviewFromPage(url) {
     let review = null;
     
     if(url.includes('https://www.amazon.com/gp/customer-reviews/')) {
+        rating = document.evaluate("//*[contains(concat(' ', @id, ' '), 'customer_review')]/div[2]/a/i/span", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.innerText
+        rating = rating[0]
         review = document.evaluate("//*[contains(concat(' ', @id, ' '), 'customer_review')]/div[4]/span/span", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.innerText
+
+        
+        // here is where you send the post request to the api
+        // Make a POST request to your Flask API endpoint
+        let data = {
+            text: review,
+            rating: rating
+        };
+
+        // Make a POST request to your Flask API endpoint with JSON data
+        let res = await fetch('http://127.0.0.1:5000/endpoint', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json', // Set the content type to JSON
+            },
+            body: JSON.stringify(data), // Stringify the JSON object
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json(); // assuming the server returns JSON
+                }
+                throw new Error('Network response was not ok.');
+            })
+            .then(data => {
+                console.log(data.text); // Handle the response from the Flask API
+                chrome.runtime.sendMessage({ review: data.text });
+
+            })
+            .catch(error => {
+                console.error('There was a problem with your fetch operation:', error);
+            });
+            
     }
-    // here is where you send the post request to the api
-    // Make a POST request to your Flask API endpoint
-    let data = {
-        text: review
-    };
-
-    // Make a POST request to your Flask API endpoint with JSON data
-    let res = await fetch('http://127.0.0.1:5000/endpoint', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json', // Set the content type to JSON
-        },
-        body: JSON.stringify(data), // Stringify the JSON object
-    })
-        .then(response => {
-            if (response.ok) {
-                return response.json(); // assuming the server returns JSON
-            }
-            throw new Error('Network response was not ok.');
-        })
-        .then(data => {
-            console.log(data.text); // Handle the response from the Flask API
-            chrome.runtime.sendMessage({ review: data.text });
-
-        })
-        .catch(error => {
-            console.error('There was a problem with your fetch operation:', error);
-        });
+    
+    else {
+        chrome.runtime.sendMessage({review});
+    }
 }

@@ -5,7 +5,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 250px;
+    height: 200px;
     width: 200px;
     border: solid 1px;
     background-color: #3e3e42;
@@ -59,4 +59,12 @@ body {
     to{
         transform: translateY(0);
     }
+}
+
+.genuine {
+    background-color: #28a745;
+}
+
+.fake {
+    background-color: red;
 }
