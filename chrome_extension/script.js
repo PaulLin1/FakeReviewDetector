@@ -4,24 +4,16 @@ let reviewScrape = document.getElementById("detect");
 // the html element of the review that is copied on the chrome extension
 let review_html = document.getElementById('review_data')
 
-// the html element of the review that is copied on the chrome extension
-let button_html = document.getElementById('detect')
-
 // adds the review text to the chrome extension ui
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     let review = request.review;
     
     if(review != null) {
-        button_html.innerText = review
-        if (review == "Looks Genuine") {
-            button_html.classList.add("genuine");
-        }
-        else if (review == "Maybe Fake") {
-            button_html.classList.add("fake");
-        }
+        review_html.innerText = review
+
     }
     else {
-        button_html.innerText = 'No Review Found'
+        review_html.innerText = 'No Review Found'
     }
 
 })

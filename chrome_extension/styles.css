@@ -5,7 +5,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 200px;
+    height: 250px;
     width: 200px;
     border: solid 1px;
     background-color: #3e3e42;
@@ -50,6 +50,7 @@ body {
     font-size: 16px;
     font-style: italic bold;
     margin-bottom: 20px;
+<<<<<<< HEAD
     color: whitesmoke;
 }
 @keyframes slideDownFromTop {
@@ -67,4 +68,6 @@ body {
 
 .fake {
     background-color: red;
+=======
+>>>>>>> parent of 13e2f10 (Merge branch 'main' of https://github.com/PaulLin1/FakeReviewDetector)
 }
