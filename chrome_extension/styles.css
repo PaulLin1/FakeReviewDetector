@@ -5,8 +5,10 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 200px;
+    height: 250px;
     width: 200px;
+    border: solid 1px;
+    background-color: #3e3e42;
 }
 .centered-container {
     height: 80%;
@@ -15,21 +17,40 @@ body {
 .title {
     font-size: 24px;
     font-weight: bold;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
     margin-bottom: 20px;
+    color: whitesmoke;
+    animation: slideDownFromTop 0.7s ease-out;
+    transition: all 0.3s;
 }
 .button {
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color: green;
     color: #fff;
-    border: none;
+    border: solid 2px;
     border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
     margin-bottom: 20px;
+    animation: slideDownFromTop 0.7s ease-out;
+    transition: all 0.3s;
 }
+.button:hover {
+    transform: scale(1.15);
+    background-color: white;
+    color: green;
+    font-weight: bold;
+};
+
+.button:active {
+    background-color: lightgreen;
+    color: white;
+};
 .paragraph {
     font-size: 16px;
+    font-style: italic bold;
     margin-bottom: 20px;
+    color: whitesmoke;
 }
 
 .genuine {
