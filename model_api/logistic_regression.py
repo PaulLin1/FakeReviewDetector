@@ -101,9 +101,12 @@ def detector(review, rating):
           coherence = 1
       else:
           coherence = 0
+      
+      #Flesch Reading Ease
+      user_input_readability = flesch_reading_ease(user_input_review)
 
       #Put features together
-      user_input_vectorized = np.column_stack([user_input_vectorized.toarray(), user_input_sentiment, coherence])
+      user_input_vectorized = np.column_stack([user_input_vectorized.toarray(), user_input_sentiment, coherence, user_input_readability])
 
       # Make a prediction using the trained model
       prediction = logreg_model.predict(user_input_vectorized)
@@ -113,5 +116,3 @@ def detector(review, rating):
           return "Maybe Fake", prediction
       else:
           return "Looks Genuine", prediction
-
-print(accuracy())
